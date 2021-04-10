@@ -2,6 +2,16 @@
 
 ## Objects
 
+```javascript
+const person = {
+  name: "John Smith",
+  age: 30,
+  greet() {
+    console.log(`Hello, my name is ${this.name}`);
+  },
+};
+```
+
 One of JavaScript's data types used to store properties (key-value pairs). Property keys must be strings or symbols (usually strings). Values can be of any type. If you define a property with a non - string key, it will first be converted to a string; When dealing with objects we are basically doing one of two things: setting a property or accessing a property. We can do both operations through the property key by using the bracket notation or the dot notation. Difference is brackets can take any UTF - 8 compatible string as the key, while the dot notation requires valid variable names;
 
 ```javascript
@@ -10,7 +20,7 @@ obj.hasOwnProperty(key)
 Object.keys //own enumerable
 Object.getOwnPropertyNames
 
-obj.propertyIsEnumerable
+obj.propertyIsEnumerable(key)
 ```
 JS objects use an internal `[[Prototype]]` property to keep track of their prototype. When you create an object with Object.create(proto), the new object's `[[Prototype]]` property gets assigned to the proto object; Note `[[Prototype]]` is an internal property. Cannot access it directly in your code. BUT you can access and replace its value with an Object method.
 
@@ -24,19 +34,10 @@ let b = {};
 Object.setPrototypeOf(b, a);
 Object.getPrototypeOf(b);
 ```
+**Procedural Programming** - programs are a series of steps or procedures (variable declarations, conditionals, loops, and function calls) that we performed one after the other. As the program grows, so does the complexity and, before you know it, you end up with functions all throughout the code split up from the data that they operate on.
 
+ **Object Oriented Programming** is the paradigm of thinking about problems as a collection of objects with state and behavior that interact with each other. OOP uses objects to organize a program. OOP makes our code flexible, easy to understand, and easy to change. Reduces dependencies and makes maintenance easier. Helps break down and solve problems. (Could be larger and less efficient.)
 
- **Object Oriented Programming** is the paradigm of thinking about problems as a collection of objects with state and behavior that interact with each other. OOP makes our code flexible, easy to understand, and easy to change. Reduces dependencies and makes maintenance easier. Helps break down and solve problems. (Could be larger and less efficient.)
-
-```javascript
-const person = {
-  name: "John Smith",
-  age: 30,
-  greet: function () {
-    console.log(`Hello, my name is ${this.name}`);
-  },
-};
-```
 
 ## Object Factories
 
@@ -65,15 +66,15 @@ john.greet();
 Objects that help provide state within another object are called collaborator objects, or more simply, collaborators. A collaborator works in conjunction -- in collaboration -- with the object to which it belongs.
 
 ```javascript
-let chichi = {
-  name: "Chichi",
+let pet = {
+  name: "mrCat",
   age: 3,
-  spicies: "cat",
+  species: "cat",
 };
 
 let john = {
   name: "John Smith",
-  pet: chichi,
+  pet: pet,
 };
 
 console.log(john.pet.name);
@@ -81,7 +82,7 @@ console.log(john.pet.name);
 
 ## Constructors and Prototypes
 
-Constructor functions technically are regular functions. They are named with capital letter first. They should be executed only with "new" operator. When the function is invoked with `new` keyword, the following steps happen:
+Constructor functions technically are regular functions. They are named with capital letter first. They should be executed only with "new" operator. When the function is invoked with `new` keyword, the following steps happen: (arrow, generators, short methods, builtins can't be constructors)
 
 1. A new empty object is created and assigned to `this`.
 2. The function body executes. Usually it modifies `this`, adds new properties to it.
@@ -101,6 +102,16 @@ function Person(name. age) {
 
 Person.prototype.greet = function() {
   console.log(`Hello! My name is ${this.name} and I'm ${this.age} years old.`);
+}
+
+function Car(args) {
+  Object.assign(this, args);
+
+  this.drive = function() {
+    this.started = true;
+  };
+
+  // rest of the methods
 }
 ```
 
@@ -171,6 +182,15 @@ console.log(Person.sayWord());
 
 console.log(john.name);
 console.log(john.greet());
+
+function Dog(name, breed, weight) {
+  this.name = name;
+  this.breed = breed;
+  this.weight = weight;
+  Dog.allDogs.push(this);
+}
+
+Dog.allDogs = [];
 ```
 
 ## Prototypal inheritance
@@ -191,25 +211,11 @@ let personPrototype = {
 };
 
 let john = Object.create(personPrototype).init("John Smith", 30);
-
-console.log(john);
 ```
 
 We can further explore OLOO inheritance pattern like this:
 
 ```javascript
-let personPrototype = {
-  sayName() {
-    console.log(`My name is ${this.name} and I'm ${this.age} old.`);
-  },
-
-  init(name, age) {
-    this.name = name;
-    this.age = age;
-    return this;
-  },
-};
-
 let studentPrototype = Object.create(personPrototype);
 studentPrototype.init = function (name, age, major) {
   personPrototype.init.call(this, name, age);
@@ -218,7 +224,6 @@ studentPrototype.init = function (name, age, major) {
 };
 
 let james = Object.create(studentPrototype).init("James Roh", 20, "Math");
-console.log(james);
 ```
 
 ## Pseudo-classical inheritance
@@ -269,12 +274,11 @@ class Student extends Person {
 }
 
 let james = new Student("James Dean", 20, "Math");
-console.log(james);
 ```
 
 ## Encapsulation
 
-Encapsulation is the idea of bundling data (state) and operations related to that data (behavior) in a cohesive unit called an object. In OOP, encapsulation also refers to the idea of restricting access to state and behavior (exposing only the interface needed).
+Encapsulation is the idea of bundling data (state) and operations related to that data (behavior) in a cohesive unit called an object. In OOP, encapsulation also refers to the idea of restricting access to state and behavior (exposing only the interface needed).(e.g. user - account)
 
 ## Polymorphism
 
@@ -340,7 +344,7 @@ First in the object and then looking up for prototype chain.
 
 ## Function execution context and this
 
-The value of `this` is decided by execution context of the function.
+The execution context -- or context -- is a concept that refers to the environment in which a function executes. The context (value of the `this` keyword) depends on how the function or method was invoked, not on where the function was defined.
 
 ## Implicit and explicit execution context
 
@@ -352,7 +356,60 @@ Or you can also permanently bind `this` to a function by using `.bind` If you do
 
 ## Dealing with context loss: call, apply, and bind
 
-Context can be lost when the method is assigned to a variable or passed into an argument. Call, apply and bind usage is explained above.
+Context can be lost when the method is assigned to a variable or passed into an argument, inner function not using the surrounding context. One way to solve this problem is to pass the context object as a second parameter (array methods).
+
+```javascript
+someObject.someMethod.call(context, arg1, arg2, arg3, ...)
+
+function logNum() {
+  console.log(this.num);
+}
+
+let obj = {
+  num: 42
+};
+
+logNum.call(obj); // logs 42
+
+Function.prototype.bind = function (...args) {
+  let fn = this;
+  let context = args.shift();
+
+  return function () {
+    return fn.apply(context, args);
+  };
+};
+
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    function bar() {
+      console.log(this.a + ' ' + this.b);
+    }
+
+    bar();
+  },
+};
+
+obj.foo();        // => undefined undefined
+
+let obj = {
+  a: 'hello',
+  b: 'world',
+  foo: function() {
+    [1, 2, 3].forEach(function(number) {
+      console.log(String(number) + ' ' + this.a + ' ' + this.b);
+    });
+  },
+};
+
+obj.foo();
+
+// => 1 undefined undefined
+// => 2 undefined undefined
+// => 3 undefined undefined
+```
 
 ## Object.assign and Object.create
 
@@ -361,11 +418,17 @@ Context can be lost when the method is assigned to a variable or passed into an 
 `Object.assign(obj1, obj2)` copies all enumerable own properties from one or more source objects to a target object, and returns the target object. It can be used during mix-in pattern.
 
 ## Built-in constructors like Array, Object, String and Number
+```javascript
+let emptyArray = new Array();
+let numbers = new Array(1, 2, 3, 4)
+let string = 'EEE';
+[].every.call(string, char => char === 'E'); // => true
+
+```
 
 ## Reading OO code
 
-## Precision of language
+The idea behind a spike is to provide a general outline of how the program flows. Spikes take a high-level view, focusing on the general logic of the program; they don't concern ourselves with details like what it means for the game to be over.
 
-This code defines a `Dog` class with two methods. The `constructor` method initializes a new `Dog` object, which it does by assigning the instance property `this.name` to the dog's name specified by the argument. The `sayHello` instance method logs a message to the console that includes the dog's name in place of `${this.name}`. The instance method sayHello returns `undefined`.
+Note that the (mostly) empty methods we created both here and earlier are stubs; they serve as placeholders for functions and methods to be written or removed later. They don't have any useful functionality yet; most stubs are either empty or return a constant value.
 
-Make sure you clearly speak about outputs, return value, and object mutations

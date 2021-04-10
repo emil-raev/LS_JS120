@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable max-lines-per-function */
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'Spock'];
 const CHOICE_ALIAS = { r: 'rock', p: 'paper', s: 'scissors', l: 'lizard', S: 'Spock' };

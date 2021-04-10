@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // class CircularQueue {
 //   constructor(size) {
 //     this.size = size;
@@ -148,36 +149,36 @@
 //   }
 // }
 
-class createStudent {
-  constructor(name, year) {
-    this.name = name;
-    this.year = year;
-    this.courses = [];
-  }
+// class createStudent {
+//   constructor(name, year) {
+//     this.name = name;
+//     this.year = year;
+//     this.courses = [];
+//   }
 
-  info() {
-    return `${this.name} is a ${this.year} year student`;
-  }
+//   info() {
+//     return `${this.name} is a ${this.year} year student`;
+//   }
 
-  listCourses() {
-    return this.courses;
-  }
+//   listCourses() {
+//     return this.courses;
+//   }
 
-  addCourse(course) {
-    this.courses.push(course);
-  }
+//   addCourse(course) {
+//     this.courses.push(course);
+//   }
 
-  addNote(code, noteTxt) {
-    let course = this.courses.find(course => course.code === code);
-    course.note = (course.note || '') + noteTxt;
-  }
+//   addNote(code, noteTxt) {
+//     let course = this.courses.find(course => course.code === code);
+//     course.note = (course.note || '') + noteTxt;
+//   }
 
-  updateNote(code, noteTxt) {
-    let course = this.courses.find(course => course.code === code);
-    course.note = noteTxt;
-  }
+//   updateNote(code, noteTxt) {
+//     let course = this.courses.find(course => course.code === code);
+//     course.note = noteTxt;
+//   }
 
-  viewNotes() {
-    this.courses.filter(course => course.note).forEach(course => console.log(`${course.name}: ${course.note}`));
-  }
-}
+//   viewNotes() {
+//     this.courses.filter(course => course.note).forEach(course => console.log(`${course.name}: ${course.note}`));
+//   }
+// }
